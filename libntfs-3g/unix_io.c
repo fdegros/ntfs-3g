@@ -140,7 +140,16 @@ static int ntfs_device_unix_io_open(struct ntfs_device *dev, int flags)
 	 */ 
 	if (!NDevBlock(dev) && (flags & O_RDWR) == O_RDWR)
 		flags |= O_EXCL;
-	*(int*)dev->d_private = open(dev->d_name, flags);
+	/* skip calling open() if fd path is provided */
+	int fd = -1;
+	int len = 0;
+	if (sscanf(dev->d_name, "/dev/fd/%u%n", &fd, &len) == 1 && len == strlen(dev->d_name)) {
+		printf("skipping open and using provided fd: %d\n", fd);
+		*(int*)dev->d_private = fd;
+	}
+	else {
+		*(int*)dev->d_private = open(dev->d_name, flags);
+	}
 	if (*(int*)dev->d_private == -1) {
 		err = errno;
 			/* if permission error and rw, retry read-only */
