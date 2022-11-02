@@ -4445,7 +4445,8 @@ int main(int argc, char *argv[])
 		ctx->blkdev = TRUE;
 #endif
 
-#ifndef FUSE_INTERNAL
+/* #if FUSE_INTERNAL */
+#if 0
 	if (getuid() && ctx->blkdev) {
 		ntfs_log_error("%s", unpriv_fuseblk_msg);
 		err = NTFS_VOLUME_NO_PRIVILEGE;
