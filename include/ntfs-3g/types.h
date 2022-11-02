@@ -44,25 +44,30 @@ typedef int16_t s16;
 typedef int32_t s32;
 typedef int64_t s64;
 
-typedef u16 le16;
-typedef u32 le32;
-typedef u64 le64;
+/*
+ * The source code takes the addresses of these types.
+ * The types should be marked unaligned as they are used in packed
+ * structures to avoid crashes on ARM32.
+ */
+typedef __attribute__((__aligned__(1))) u16 le16;
+typedef __attribute__((__aligned__(1))) u32 le32;
+typedef __attribute__((__aligned__(1))) u64 le64;
 
-typedef u16 be16;
-typedef u32 be32;
-typedef u64 be64;
+typedef __attribute__((__aligned__(1))) u16 be16;
+typedef __attribute__((__aligned__(1))) u32 be32;
+typedef __attribute__((__aligned__(1))) u64 be64;
 
 /*
  * Declare s{l,b}e{16,32,64} to be unsigned because we do not want sign
  * extension on BE architectures.
  */
-typedef u16 sle16;
-typedef u32 sle32;
-typedef u64 sle64;
+typedef __attribute__((__aligned__(1))) u16 sle16;
+typedef __attribute__((__aligned__(1))) u32 sle32;
+typedef __attribute__((__aligned__(1))) u64 sle64;
 
-typedef u16 sbe16;
-typedef u32 sbe32;
-typedef u64 sbe64;
+typedef __attribute__((__aligned__(1))) u16 sbe16;
+typedef __attribute__((__aligned__(1))) u32 sbe32;
+typedef __attribute__((__aligned__(1))) u64 sbe64;
 
 typedef le16 ntfschar;			/* 2-byte Unicode character type. */
 #define UCHAR_T_SIZE_BITS 1
